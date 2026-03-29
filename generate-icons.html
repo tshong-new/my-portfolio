@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html><head><title>아이콘 생성기</title></head>
+<body style="background:#222;color:#fff;font-family:sans-serif;padding:40px;text-align:center;">
+<h2>PWA 아이콘 생성</h2>
+<p>아래 버튼을 클릭하면 아이콘 파일이 다운로드됩니다.</p>
+<button onclick="gen(192)" style="padding:12px 24px;font-size:16px;margin:8px;cursor:pointer;">192x192 다운로드</button>
+<button onclick="gen(512)" style="padding:12px 24px;font-size:16px;margin:8px;cursor:pointer;">512x512 다운로드</button>
+<canvas id="c" style="display:none;"></canvas>
+<script>
+function gen(size) {
+  const c = document.getElementById('c');
+  c.width = size; c.height = size;
+  const ctx = c.getContext('2d');
+  // 배경
+  ctx.fillStyle = '#080808';
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, size * 0.2);
+  ctx.fill();
+  // 차트 아이콘
+  const m = size * 0.15;
+  const w = size - m * 2;
+  const h = size * 0.45;
+  const baseY = size * 0.72;
+  // 바 차트
+  const bars = [0.4, 0.7, 0.55, 0.85, 1.0];
+  const barW = w / (bars.length * 2);
+  const colors = ['#4db8ff', '#4db8ff', '#ffb300', '#00e5a0', '#00e5a0'];
+  bars.forEach((v, i) => {
+    const x = m + i * (w / bars.length) + barW * 0.5;
+    const bh = h * v;
+    ctx.fillStyle = colors[i];
+    ctx.beginPath();
+    ctx.roundRect(x, baseY - bh, barW, bh, barW * 0.2);
+    ctx.fill();
+  });
+  // 상단 텍스트
+  ctx.fillStyle = '#00e5a0';
+  ctx.font = `bold ${size * 0.11}px 'Arial'`;
+  ctx.textAlign = 'center';
+  ctx.fillText('PORTFOLIO', size / 2, size * 0.22);
+  // 다운로드
+  const a = document.createElement('a');
+  a.download = 'icon-' + size + '.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body></html>
