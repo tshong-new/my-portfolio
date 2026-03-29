@@ -75,31 +75,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .pnl-period-btn{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text3);font-family:var(--mono);font-size:11px;padding:6px;border-radius:6px;cursor:pointer;text-align:center;}
 .pnl-period-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:700;}
 
-/* AI 패널 공통 */
-.ai-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(192,132,252,.15),rgba(0,229,160,.1));border:1px solid rgba(192,132,252,.3);color:var(--purple);font-family:var(--kr);font-size:13px;font-weight:600;padding:10px 16px;border-radius:8px;cursor:pointer;width:100%;justify-content:center;margin-top:10px;transition:all .2s;}
-.ai-btn:active{opacity:.8;}
-.ai-btn.loading{opacity:.6;pointer-events:none;}
-.ai-panel{display:none;background:linear-gradient(135deg,rgba(192,132,252,.05),rgba(0,229,160,.04));border:1px solid rgba(192,132,252,.25);border-radius:10px;padding:14px 16px;margin-top:10px;}
-.ai-panel.open{display:block;}
-.ai-panel-ttl{font-family:var(--mono);font-size:10px;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.ai-panel-ttl::before{content:'✦';font-size:12px;}
-.ai-content{font-family:var(--kr);font-size:14px;color:var(--text);line-height:1.9;white-space:pre-wrap;word-break:keep-all;}
-.ai-verdict{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:700;padding:5px 14px;border-radius:6px;margin-bottom:12px;}
-.ai-verdict.buy{background:rgba(0,229,160,.12);color:var(--green);border:1px solid rgba(0,229,160,.3);}
-.ai-verdict.hold{background:rgba(255,179,0,.12);color:var(--amber);border:1px solid rgba(255,179,0,.3);}
-.ai-verdict.sell{background:rgba(255,82,82,.12);color:var(--red);border:1px solid rgba(255,82,82,.3);}
-.ai-verdict.wait{background:rgba(77,184,255,.12);color:var(--blue);border:1px solid rgba(77,184,255,.3);}
-.ai-refresh{background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;float:right;font-family:var(--kr);}
-.ai-refresh:hover{color:var(--purple);}
-
-/* 홈 AI 버튼 */
-.home-ai-row{display:flex;gap:8px;margin-bottom:12px;}
-.home-ai-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;background:var(--bg2);border:1px solid rgba(192,132,252,.25);border-radius:var(--r);padding:14px 10px;cursor:pointer;transition:all .15s;}
-.home-ai-btn:active{border-color:var(--purple);}
-.home-ai-btn-icon{font-size:22px;}
-.home-ai-btn-label{font-family:var(--kr);font-size:12px;color:var(--text2);font-weight:500;}
-.home-ai-panel{background:linear-gradient(135deg,rgba(192,132,252,.05),rgba(0,229,160,.04));border:1px solid rgba(192,132,252,.25);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;display:none;}
-.home-ai-panel.open{display:block;}
 
 .stk-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;}
 .stk-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
@@ -223,8 +198,6 @@ body.light{--bg:#f5f5f5;--bg2:#fff;--bg3:#ebebeb;--bg4:#e0e0e0;--border:rgba(0,0
 .news-list.open{display:block;}
 .news-item{background:var(--bg3);border-radius:8px;padding:11px 13px;margin-bottom:7px;}
 .news-headline{font-size:13px;color:var(--text);font-family:var(--kr);line-height:1.6;margin-bottom:4px;word-break:keep-all;}
-.news-ai-summary{font-size:12px;color:var(--accent);font-family:var(--kr);line-height:1.6;margin-bottom:6px;padding:6px 8px;background:rgba(0,229,160,.06);border-radius:6px;border-left:2px solid var(--accent);}
-.news-ai-label{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:3px;letter-spacing:.5px;}
 .news-meta{display:flex;justify-content:space-between;align-items:center;}
 .news-source{font-family:var(--mono);font-size:10px;color:var(--text3);}
 .news-link{font-family:var(--mono);font-size:11px;color:var(--accent);text-decoration:none;}
@@ -278,12 +251,6 @@ body.light{--bg:#f5f5f5;--bg2:#fff;--bg3:#ebebeb;--bg4:#e0e0e0;--border:rgba(0,0
 .exrate-badge.ok{border-color:rgba(0,229,160,.3);color:var(--green);}
 .log-btns{display:flex;gap:8px;margin-top:8px;}
 .log-btn{flex:1;background:none;border:1px solid var(--border2);color:var(--text2);font-family:var(--kr);font-size:12px;padding:8px;border-radius:7px;cursor:pointer;}
-/* AI 타이핑 애니메이션 */
-@keyframes typing{0%,100%{opacity:1}50%{opacity:.3}}
-.ai-typing{display:inline-flex;gap:4px;align-items:center;padding:4px 0;}
-.ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:typing 1.2s infinite;}
-.ai-typing span:nth-child(2){animation-delay:.2s;}
-.ai-typing span:nth-child(3){animation-delay:.4s;}
 </style>
 </head>
 <body>
@@ -311,30 +278,6 @@ body.light{--bg:#f5f5f5;--bg2:#fff;--bg3:#ebebeb;--bg4:#e0e0e0;--border:rgba(0,0
         <div class="sum-card" id="sc-gl"><div class="s-lbl">미실현 손익</div><div class="s-val" id="hv-gl">$0</div><div class="s-sub" id="hv-ret">0.00%</div></div>
         <div class="sum-card" id="sc-day"><div class="s-lbl">전일 대비</div><div class="s-val" id="hv-day">$0</div><div class="s-sub" id="hv-dpct">0.00%</div></div>
         <div class="sum-card ac"><div class="s-lbl">보유 종목</div><div class="s-val" id="hv-pos">0</div><div class="s-sub">활성 포지션</div></div>
-      </div>
-
-      <!-- AI 버튼 2종 -->
-      <div class="home-ai-row">
-        <button class="home-ai-btn" onclick="runRebalance()">
-          <span class="home-ai-btn-icon">⚖️</span>
-          <span class="home-ai-btn-label">AI 리밸런싱</span>
-        </button>
-        <button class="home-ai-btn" onclick="runBriefing()">
-          <span class="home-ai-btn-icon">📡</span>
-          <span class="home-ai-btn-label">AI 시황 브리핑</span>
-        </button>
-      </div>
-
-      <!-- AI 리밸런싱 패널 -->
-      <div class="home-ai-panel" id="rebalance-panel">
-        <div class="ai-panel-ttl">AI 리밸런싱 제안 <button class="ai-refresh" onclick="runRebalance()">↻ 재분석</button></div>
-        <div class="ai-content" id="rebalance-content"></div>
-      </div>
-
-      <!-- AI 시황 브리핑 패널 -->
-      <div class="home-ai-panel" id="briefing-panel">
-        <div class="ai-panel-ttl">AI 시황 브리핑 <button class="ai-refresh" onclick="runBriefing()">↻ 재분석</button></div>
-        <div class="ai-content" id="briefing-content"></div>
       </div>
 
       <!-- PnL 차트 -->
@@ -548,8 +491,6 @@ let sfund   = JSON.parse(localStorage.getItem('ts_sfund')   || '{}');
 let srel    = JSON.parse(localStorage.getItem('ts_srel')    || '{}');
 let sniperSortMode = 'score';
 let pnlPeriod = '1m';
-let aiCache = {}; // { key: { ts, content } }
-const AI_CACHE_TTL = 30 * 60 * 1000; // 30분
 
 const SECTOR_ETF_MAP = {'반도체':'SOXX','클라우드':'SKYY','AI 소프트웨어':'BOTZ','데이터센터':'SRVR','네트워킹':'IGN','빅테크':'QQQ','전기차/에너지':'LIT','바이오':'XBI','금융':'XLF','지수 (ETF)':'SPY','기타':'SPY'};
 const PAL = ['#00e5a0','#4db8ff','#ff4f4f','#ffb300','#c084fc','#fb923c','#34d399','#f472b6','#60a5fa','#a78bfa'];
@@ -582,256 +523,6 @@ function startNameEdit(){const n=g('hdr-name'),e=g('hdr-name-edit');e.value=n.te
 function saveName(){const v=g('hdr-name-edit').value.trim()||'포트폴리오';g('hdr-name').textContent=v;g('hdr-name').style.display='';g('hdr-name-edit').style.display='none';document.title=v;localStorage.setItem('ts_name',v);g('set-name').textContent=v;}
 function cancelName(){g('hdr-name').style.display='';g('hdr-name-edit').style.display='none';}
 
-// ── Claude API 호출 ────────────────────────────────────────────────────────
-async function claudeAsk(prompt, systemPrompt='') {
-  const body = {
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 800,
-    system: systemPrompt || '당신은 미국 주식 포트폴리오 전문 AI 어시스턴트입니다. 간결하고 실용적인 한국어로 답변하세요. 이모지를 적절히 사용하고 핵심만 전달하세요.',
-    messages: [{ role: 'user', content: prompt }]
-  };
-  const res = await fetch('/.netlify/functions/proxy', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message || 'API 오류');
-  return data.content?.[0]?.text || '';
-}
-
-// 타이핑 인디케이터
-function showTyping(el) {
-  el.innerHTML = '<div class="ai-typing"><span></span><span></span><span></span></div>';
-}
-
-// ── AI ① 종목 분석 ────────────────────────────────────────────────────────
-async function runStockAnalysis(ticker) {
-  const cacheKey = 'stock_' + ticker;
-  const cached = aiCache[cacheKey];
-  if (cached && Date.now() - cached.ts < AI_CACHE_TTL) {
-    showAiPanel(ticker, cached.content);
-    return;
-  }
-  const btn = g('ai-btn-' + ticker);
-  const panel = g('ai-panel-' + ticker);
-  const content = g('ai-content-' + ticker);
-  if (!panel || !content) return;
-  if (btn) { btn.classList.add('loading'); btn.textContent = '✦ AI 분석 중...'; }
-  panel.classList.add('open');
-  showTyping(content);
-
-  try {
-    const p = pf.find(x => x.ticker === ticker);
-    const d = px[ticker]; const t = ta[ticker]; const w = wk52[ticker];
-    const close = d?.p, mv = close ? close * p.qty : null;
-    const glp = mv ? ((mv - p.qty * p.avg) / (p.qty * p.avg) * 100).toFixed(2) : null;
-    const tv = pf.reduce((s,x)=>{const dx=px[x.ticker];return s+(dx?.p?dx.p*x.qty:x.qty*x.avg);},0);
-    const weight = mv && tv ? (mv/tv*100).toFixed(1) : null;
-    const ma200gap = t?.ma200 && close ? ((close-t.ma200)/t.ma200*100).toFixed(1) : null;
-    const wk52gap = w && close ? ((close-w)/w*100).toFixed(1) : null;
-
-    const prompt = `종목: ${ticker} (${p.sector})
-현재가: $${close?.toFixed(2)||'?'} / 평균단가: $${p.avg.toFixed(2)} / 수량: ${p.qty}주
-미실현 손익률: ${glp||'?'}% / 포트폴리오 비중: ${weight||'?'}%
-RSI(14): ${t?.rsi||'?'} / MA200 이격: ${ma200gap||'?'}% / 52주 고점 대비: ${wk52gap||'?'}%
-
-위 데이터를 바탕으로 다음 형식으로 분석해주세요:
-[판단] 매수강화 / 홀드 / 부분매도 / 매도 중 하나
-[근거] 핵심 이유 2~3가지 (각 1줄)
-[주목 포인트] 앞으로 주시할 사항 1가지`;
-
-    const result = await claudeAsk(prompt);
-    aiCache[cacheKey] = { ts: Date.now(), content: result };
-    showAiPanel(ticker, result);
-  } catch(e) {
-    if (content) content.textContent = '⚠ AI 분석 실패: ' + e.message;
-  } finally {
-    if (btn) { btn.classList.remove('loading'); btn.textContent = '✦ AI 종목 분석'; }
-  }
-}
-
-function showAiPanel(ticker, text) {
-  const panel = g('ai-panel-' + ticker);
-  const content = g('ai-content-' + ticker);
-  if (!panel || !content) return;
-  panel.classList.add('open');
-
-  // 판단 뱃지 추출
-  const verdictMatch = text.match(/\[판단\]\s*(.+)/);
-  const verdict = verdictMatch ? verdictMatch[1].trim() : '';
-  let verdictClass = 'hold';
-  if (verdict.includes('매수')) verdictClass = 'buy';
-  else if (verdict.includes('부분매도')) verdictClass = 'wait';
-  else if (verdict.includes('매도')) verdictClass = 'sell';
-
-  const badgeHtml = verdict ? `<div class="ai-verdict ${verdictClass}">▶ ${verdict}</div>` : '';
-  const bodyText = text.replace(/\[판단\].+\n?/, '').trim();
-  content.innerHTML = badgeHtml + `<div style="margin-top:8px;font-size:14px;color:var(--text2);line-height:1.9;white-space:pre-wrap;">${bodyText}</div>`;
-}
-
-function toggleAiPanel(ticker) {
-  const panel = g('ai-panel-' + ticker);
-  if (!panel) return;
-  if (panel.classList.contains('open')) {
-    panel.classList.remove('open');
-  } else {
-    runStockAnalysis(ticker);
-  }
-}
-
-// ── AI ② 스나이퍼 진입 판단 ──────────────────────────────────────────────
-async function runSniperAnalysis(ticker) {
-  const cacheKey = 'sniper_' + ticker;
-  const cached = aiCache[cacheKey];
-  const panel = g('sn-ai-panel-' + ticker);
-  const content = g('sn-ai-content-' + ticker);
-  const btn = g('sn-ai-btn-' + ticker);
-  if (!panel || !content) return;
-
-  if (cached && Date.now() - cached.ts < AI_CACHE_TTL) {
-    panel.classList.add('open');
-    content.innerHTML = `<div style="font-size:14px;color:var(--text2);line-height:1.9;white-space:pre-wrap;">${cached.content}</div>`;
-    return;
-  }
-
-  if (btn) { btn.classList.add('loading'); btn.textContent = '✦ AI 판단 중...'; }
-  panel.classList.add('open');
-  showTyping(content);
-
-  try {
-    const s = sniper.find(x => x.ticker === ticker);
-    const d = px[ticker]; const t = ta[ticker]; const w = wk52[ticker]; const f = sfund[ticker]; const rel = srel[ticker];
-    const close = d?.p;
-    const targetGap = s?.target && close ? ((close - s.target) / s.target * 100).toFixed(1) : null;
-    const ma200gap = t?.ma200 && close ? ((close - t.ma200) / t.ma200 * 100).toFixed(1) : null;
-    const wk52gap = w && close ? ((close - w) / w * 100).toFixed(1) : null;
-    const etf = SECTOR_ETF_MAP[s?.sector] || 'SPY';
-
-    const prompt = `관심종목 진입 판단 요청: ${ticker} (${s?.sector})
-현재가: $${close?.toFixed(2)||'?'} / 목표 매수가: $${s?.target||'?'} / 목표가 대비: ${targetGap||'?'}%
-RSI(14): ${t?.rsi||'?'} / MA200 이격: ${ma200gap||'?'}% / 52주 고점 대비: ${wk52gap||'?'}%
-Forward PER: ${f?.per?.toFixed(1)||'?'} / PBR: ${f?.pbr?.toFixed(2)||'?'} / 애널리스트 목표가: $${f?.analystTarget?.toFixed(2)||'?'}
-vs ${etf} 1개월 상대강도: ${rel?.rel||'?'}%
-매수 thesis: ${s?.memo||'없음'}
-
-다음 형식으로 답변:
-[진입 판단] 즉시진입 / 분할진입 / 대기 / 패스 중 하나
-[이유] 핵심 근거 2~3가지
-[리스크] 주요 리스크 1가지`;
-
-    const result = await claudeAsk(prompt);
-    aiCache[cacheKey] = { ts: Date.now(), content: result };
-
-    const verdictMatch = result.match(/\[진입 판단\]\s*(.+)/);
-    const verdict = verdictMatch ? verdictMatch[1].trim() : '';
-    let vc = 'hold';
-    if (verdict.includes('즉시')) vc = 'buy';
-    else if (verdict.includes('분할')) vc = 'wait';
-    else if (verdict.includes('패스')) vc = 'sell';
-    const badgeHtml = verdict ? `<div class="ai-verdict ${vc}">▶ ${verdict}</div>` : '';
-    const bodyText = result.replace(/\[진입 판단\].+\n?/, '').trim();
-    content.innerHTML = badgeHtml + `<div style="margin-top:8px;font-size:14px;color:var(--text2);line-height:1.9;white-space:pre-wrap;">${bodyText}</div>`;
-  } catch(e) {
-    if (content) content.textContent = '⚠ 분석 실패: ' + e.message;
-  } finally {
-    if (btn) { btn.classList.remove('loading'); btn.textContent = '✦ AI 진입 판단'; }
-  }
-}
-
-function toggleSniperAi(ticker) {
-  const panel = g('sn-ai-panel-' + ticker);
-  if (!panel) return;
-  if (panel.classList.contains('open')) panel.classList.remove('open');
-  else runSniperAnalysis(ticker);
-}
-
-// ── AI ③ 리밸런싱 제안 ────────────────────────────────────────────────────
-async function runRebalance() {
-  if (!pf.length) { st('보유 종목이 없습니다'); return; }
-  const panel = g('rebalance-panel');
-  const content = g('rebalance-content');
-  panel.classList.add('open');
-  showTyping(content);
-
-  try {
-    const tc = pf.reduce((s,p)=>s+p.qty*p.avg, 0);
-    const tv = pf.reduce((s,p)=>{const d=px[p.ticker];return s+(d?.p?d.p*p.qty:p.qty*p.avg);},0);
-    const rows = pf.map(p => {
-      const d=px[p.ticker],t=ta[p.ticker];
-      const close=d?.p,mv=close?close*p.qty:p.qty*p.avg;
-      const glp=((mv-p.qty*p.avg)/(p.qty*p.avg)*100).toFixed(1);
-      const weight=(mv/tv*100).toFixed(1);
-      const tgt=targets[p.ticker]||'미설정';
-      return `${p.ticker}(${p.sector}): 비중 ${weight}% / 목표 ${tgt}% / 손익 ${glp}% / RSI ${t?.rsi||'?'}`;
-    }).join('\n');
-
-    const prompt = `포트폴리오 리밸런싱 분석:
-총 평가금액: $${tv.toFixed(0)} / 미실현 손익: ${((tv-tc)/tc*100).toFixed(1)}%
-
-보유 종목:
-${rows}
-
-다음을 제안해주세요:
-1. 비중 축소 우선순위 (이유 포함)
-2. 비중 확대 우선순위 (이유 포함)
-3. 전체 포트폴리오 코멘트 1~2줄`;
-
-    const result = await claudeAsk(prompt);
-    content.innerHTML = `<div style="font-size:14px;color:var(--text2);line-height:1.9;white-space:pre-wrap;">${result}</div>`;
-  } catch(e) {
-    content.textContent = '⚠ 분석 실패: ' + e.message;
-  }
-}
-
-// ── AI ④ 시황 브리핑 ──────────────────────────────────────────────────────
-async function runBriefing() {
-  if (!pf.length) { st('보유 종목이 없습니다'); return; }
-  const panel = g('briefing-panel');
-  const content = g('briefing-content');
-  panel.classList.add('open');
-  showTyping(content);
-
-  try {
-    // 지표 현재값 수집
-    const tnxVal = g('ind-tnx-val')?.textContent || '—';
-    const fgVal  = g('ind-fg-val')?.textContent  || '—';
-    const hyVal  = g('ind-hy-val')?.textContent  || '—';
-    const fgBadge = g('ind-fg-badge')?.textContent || '—';
-
-    const tc = pf.reduce((s,p)=>s+p.qty*p.avg, 0);
-    const tv = pf.reduce((s,p)=>{const d=px[p.ticker];return s+(d?.p?d.p*p.qty:p.qty*p.avg);},0);
-
-    // 종목별 당일 등락 요약
-    const dayRows = pf.map(p => {
-      const d=px[p.ticker];
-      const close=d?.p,prev=d?.pc;
-      const dp=close&&prev?((close-prev)/prev*100).toFixed(2):null;
-      return `${p.ticker}: ${dp??('>조회필요')}%`;
-    }).join(' / ');
-
-    const prompt = `오늘의 포트폴리오 시황 브리핑:
-
-시장 지표:
-- 미국 10년물 금리: ${tnxVal}
-- Fear & Greed: ${fgVal} (${fgBadge})
-- HYG 하이일드: ${hyVal}
-
-포트폴리오 현황:
-- 총 평가금액: $${tv.toFixed(0)} / 손익: ${((tv-tc)/tc*100).toFixed(2)}%
-- 오늘 등락: ${dayRows}
-
-다음 형식으로 브리핑해주세요:
-📊 시장 분위기 (2~3줄)
-💼 내 포트폴리오 영향 (2~3줄)
-⚠️ 오늘 주목할 점 (1~2줄)`;
-
-    const result = await claudeAsk(prompt);
-    content.innerHTML = `<div style="font-size:14px;color:var(--text2);line-height:1.9;white-space:pre-wrap;">${result}</div>`;
-  } catch(e) {
-    content.textContent = '⚠ 브리핑 실패: ' + e.message;
-  }
-}
 
 // ── FETCH ─────────────────────────────────────────────────────────────────
 async function yFetch(url){
@@ -1186,12 +877,6 @@ function render(){
         <div class="stk-item"><div class="stk-item-lbl">52주대비</div><div class="stk-item-val">${wk52H}</div></div>
       </div>
       ${wk52Bar}${tgtBar}${noteHtml}
-      <!-- AI 분석 버튼 -->
-      <button class="ai-btn" id="ai-btn-${r.ticker}" onclick="toggleAiPanel('${r.ticker}')">✦ AI 종목 분석</button>
-      <div class="ai-panel" id="ai-panel-${r.ticker}">
-        <div class="ai-panel-ttl">AI 분석 — ${r.ticker} <button class="ai-refresh" onclick="runStockAnalysis('${r.ticker}')">↻ 재분석</button></div>
-        <div id="ai-content-${r.ticker}" class="ai-content"></div>
-      </div>
       <div class="news-section">
         <button class="news-btn" onclick="toggleNews('${r.ticker}')">📰 뉴스 보기</button>
         <div class="news-list" id="news-${r.ticker}"></div>
@@ -1328,12 +1013,6 @@ function renderSniper(){
         <span class="sn-score">${scoreTotal}/3 충족</span>
       </div>
       ${memoHtml}
-      <!-- AI 진입 판단 -->
-      <button class="ai-btn" id="sn-ai-btn-${r.ticker}" onclick="toggleSniperAi('${r.ticker}')">✦ AI 진입 판단</button>
-      <div class="ai-panel" id="sn-ai-panel-${r.ticker}">
-        <div class="ai-panel-ttl">AI 진입 판단 — ${r.ticker} <button class="ai-refresh" onclick="runSniperAnalysis('${r.ticker}')">↻ 재분석</button></div>
-        <div id="sn-ai-content-${r.ticker}" class="ai-content"></div>
-      </div>
       <div class="sn-actions">
         <button class="btn-buy-now" onclick="buyFromSniper('${r.ticker}')">🎯 매수 추가</button>
         <div id="sn-del-wrap-${r.ticker}"><button class="btn-sn-del" onclick="askDelSniper('${r.ticker}')">삭제</button></div>
@@ -1376,29 +1055,12 @@ async function loadSniperData(){
 }
 
 // ── 뉴스 ──────────────────────────────────────────────────────────────────
-async function aiSummarizeNews(headlines){
-  try{
-    const result=await claudeAsk(`다음 영문 뉴스 헤드라인을 각각 15자 이내 한국어로 요약. JSON 배열만 출력:\n${headlines.map((h,i)=>`${i+1}. ${h}`).join('\n')}`,'JSON 배열만 출력하세요. 마크다운 없이.');
-    const clean=result.replace(/```json|```/g,'').trim();
-    return JSON.parse(clean);
-  }catch(e){return headlines.map(()=>null);}
-}
-async function translateText(text){
-  try{const r=await fetch('/.netlify/functions/proxy?url='+encodeURIComponent('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=en|ko'),{cache:'no-store'});const json=await r.json();const t=json?.responseData?.translatedText;if(t&&t!==text&&!t.toLowerCase().includes('mymemory'))return t;}catch(e){}return text;
-}
 function timeAgo(ts){const d=Math.floor((Date.now()-ts*1000)/1000);if(d<3600)return Math.floor(d/60)+'분 전';if(d<86400)return Math.floor(d/3600)+'시간 전';return Math.floor(d/86400)+'일 전';}
 async function fetchNews(ticker){
   try{
     const r=await fetch('/.netlify/functions/proxy?url='+encodeURIComponent('https://query1.finance.yahoo.com/v1/finance/search?q='+ticker+'&newsCount=3&quotesCount=0'),{cache:'no-store'});
     const json=await r.json();const news=(json?.news||[]).slice(0,3);
-    const rawTitles=news.map(n=>n.title||'');
-    let aiSummaries=[];try{aiSummaries=await aiSummarizeNews(rawTitles);}catch(e){}
-    const items=[];
-    for(let idx=0;idx<news.length;idx++){
-      const n=news[idx];const title=await translateText(n.title||'');
-      items.push({title,aiSummary:aiSummaries[idx]||null,url:n.link||'#',source:n.publisher||'',time:n.providerPublishTime||0});
-    }
-    return items;
+    return news.map(n=>({title:n.title||'',url:n.link||'#',source:n.publisher||'',time:n.providerPublishTime||0}));
   }catch(e){return[];}
 }
 async function toggleNews(ticker){
@@ -1406,14 +1068,14 @@ async function toggleNews(ticker){
   if(list.classList.contains('open')){list.classList.remove('open');if(btn)btn.textContent='📰 뉴스 보기';return;}
   const cached=newsCache[ticker];
   if(cached&&(Date.now()-cached.ts)<600000){renderNewsList(list,cached.items);list.classList.add('open');if(btn)btn.textContent='📰 뉴스 닫기';return;}
-  if(btn)btn.textContent='📰 AI 요약 중...';
-  list.innerHTML='<div style="padding:10px;font-size:12px;color:var(--text3);">AI 요약 중...</div>';list.classList.add('open');
+  if(btn)btn.textContent='📰 로딩 중...';
+  list.innerHTML='<div style="padding:10px;font-size:12px;color:var(--text3);">로딩 중...</div>';list.classList.add('open');
   const items=await fetchNews(ticker);newsCache[ticker]={ts:Date.now(),items};
   if(!items.length){list.innerHTML='<div style="padding:10px;font-size:12px;color:var(--text3);">뉴스 없음</div>';if(btn)btn.textContent='📰 뉴스 없음';return;}
   renderNewsList(list,items);if(btn)btn.textContent='📰 뉴스 닫기';
 }
 function renderNewsList(el,items){
-  el.innerHTML=items.map(n=>`<div class="news-item">${n.aiSummary?`<div class="news-ai-label">✦ AI 요약</div><div class="news-ai-summary">${n.aiSummary}</div>`:''}<div class="news-headline">${n.title}</div><div class="news-meta"><span class="news-source">${n.source}${n.time?' · '+timeAgo(n.time):''}</span><a class="news-link" href="${n.url}" target="_blank">원문 →</a></div></div>`).join('');
+  el.innerHTML=items.map(n=>`<div class="news-item"><div class="news-headline">${n.title}</div><div class="news-meta"><span class="news-source">${n.source}${n.time?' · '+timeAgo(n.time):''}</span><a class="news-link" href="${n.url}" target="_blank">원문 →</a></div></div>`).join('');
 }
 
 // ── 지표 ──────────────────────────────────────────────────────────────────
