@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-title" content="포트폴리오">
@@ -449,6 +451,35 @@ body.light{--bg:#f5f5f5;--bg2:#fff;--bg3:#ebebeb;--bg4:#e0e0e0;--border:rgba(0,0
         </div>
       </div>
       <div class="card">
+        <div class="card-ttl">클라우드 동기화</div>
+        <div class="setting-row">
+          <span class="setting-key">동기화 상태</span>
+          <span id="sync-status-val" style="font-family:var(--mono);font-size:13px;color:var(--text3);">초기화 중...</span>
+        </div>
+        <div class="setting-row">
+          <span class="setting-key">내 동기화 코드</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span id="sync-code-display" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--accent);letter-spacing:3px;">—</span>
+            <button class="setting-btn" onclick="copySyncCode()">복사</button>
+          </div>
+        </div>
+        <div class="setting-row" style="flex-wrap:wrap;gap:8px;">
+          <span class="setting-key">다른 기기 연결</span>
+          <div style="display:flex;gap:8px;flex:1;min-width:200px;">
+            <input id="sync-code-input" class="form-input" placeholder="코드 8자리 입력" maxlength="12" style="flex:1;font-family:var(--mono);font-size:15px;text-transform:uppercase;padding:10px 12px;" oninput="this.value=this.value.toUpperCase()" />
+            <button class="setting-btn" onclick="applySyncCode()">연결</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="setting-btn" style="flex:1;" onclick="syncPull()">↓ 불러오기</button>
+          <button class="setting-btn" style="flex:1;" onclick="syncPush()">↑ 저장하기</button>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text3);line-height:1.8;">
+          💡 동기화 코드를 다른 기기에서 입력하면 데이터가 공유됩니다.<br>
+          코드를 분실하면 복구 불가 — 안전한 곳에 저장하세요.
+        </div>
+      </div>
+      <div class="card">
         <div class="card-ttl">조회 로그</div>
         <textarea id="log-panel" readonly style="width:100%;height:220px;background:var(--bg4);border:1px solid var(--border);color:var(--text2);font-family:var(--mono);font-size:11px;line-height:1.8;padding:10px 12px;border-radius:8px;resize:none;outline:none;">— 로그 없음 —</textarea>
         <div class="log-btns"><button class="log-btn" onclick="selectAllLog()">✋ 전체 선택</button><button class="log-btn" onclick="clearLog()">🗑 로그 지우기</button></div>
@@ -491,6 +522,9 @@ let sfund   = JSON.parse(localStorage.getItem('ts_sfund')   || '{}');
 let srel    = JSON.parse(localStorage.getItem('ts_srel')    || '{}');
 let sniperSortMode = 'score';
 let pnlPeriod = '1m';
+let db = null;
+let syncId = localStorage.getItem('ts_syncid') || '';
+let syncPushTimer = null;
 
 const SECTOR_ETF_MAP = {'반도체':'SOXX','클라우드':'SKYY','AI 소프트웨어':'BOTZ','데이터센터':'SRVR','네트워킹':'IGN','빅테크':'QQQ','전기차/에너지':'LIT','바이오':'XBI','금융':'XLF','지수 (ETF)':'SPY','기타':'SPY'};
 const PAL = ['#00e5a0','#4db8ff','#ff4f4f','#ffb300','#c084fc','#fb923c','#34d399','#f472b6','#60a5fa','#a78bfa'];
@@ -759,7 +793,7 @@ function delPos(tk){
   localStorage.setItem('ts_notes',JSON.stringify(notes));localStorage.setItem('ts_tgt',JSON.stringify(targets));localStorage.setItem('ts_wk52',JSON.stringify(wk52));
   save();localStorage.setItem('ts_px3',JSON.stringify(px));localStorage.setItem('ts_ta3',JSON.stringify(ta));render();
 }
-function save(){localStorage.setItem('ts_pf3',JSON.stringify(pf));g('set-pos').textContent=pf.length+'개';}
+function save(){localStorage.setItem('ts_pf3',JSON.stringify(pf));g('set-pos').textContent=pf.length+'개';debouncedSyncPush();}
 
 function autoLogTrade(type,ticker,qty,price,memo){
   trades.unshift({id:Date.now(),type,ticker,date:new Date().toISOString().slice(0,10),qty:+qty,price:+price,total:+(qty*price).toFixed(2),memo:memo||''});
@@ -769,7 +803,7 @@ function askDelTrade(id){const w=g('del-wrap-'+id),c=g('del-confirm-'+id);if(!w|
 function cancelDelTrade(id){const w=g('del-wrap-'+id),c=g('del-confirm-'+id);if(w)w.style.display='';if(c)c.classList.remove('show');}
 function delTrade(id){trades=trades.filter(t=>t.id!==id);saveTrades();renderTrades();}
 function saveMemo(id,val){const t=trades.find(t=>t.id===id);if(t){t.memo=val.trim();saveTrades();}}
-function saveTrades(){localStorage.setItem('ts_trades',JSON.stringify(trades));if(g('set-trades'))g('set-trades').textContent=trades.length+'건';}
+function saveTrades(){localStorage.setItem('ts_trades',JSON.stringify(trades));if(g('set-trades'))g('set-trades').textContent=trades.length+'건';debouncedSyncPush();}
 function updateTickerFilter(){
   const sel=g('f-ticker');if(!sel)return;const cur=sel.value;
   const tickers=[...new Set(trades.map(t=>t.ticker))].sort();
@@ -918,7 +952,7 @@ function renderChart(rows,tv){
 }
 
 // ── SNIPER ────────────────────────────────────────────────────────────────
-function saveSniper(){localStorage.setItem('ts_sniper3',JSON.stringify(sniper));}
+function saveSniper(){localStorage.setItem('ts_sniper3',JSON.stringify(sniper));debouncedSyncPush();}
 async function addSniper(){
   const ticker=g('sn-ticker').value.trim().toUpperCase(),target=parseFloat(g('sn-target').value),sector=g('sn-sector').value,memo=g('sn-memo').value.trim();
   if(!ticker){st('티커 입력 필요');return;}
@@ -1106,6 +1140,63 @@ function importCSV(event,type){
   };reader.readAsText(file,'UTF-8');
 }
 
+// ── SYNC (Firebase) ───────────────────────────────────────────────────────
+async function initSync() {
+  try {
+    const res = await fetch('/.netlify/functions/firebase-config');
+    const cfg = await res.json();
+    if (!cfg.projectId) { updateSyncUI('미설정'); return; }
+    if (!firebase.apps.length) firebase.initializeApp(cfg);
+    db = firebase.firestore();
+    if (!syncId) {
+      syncId = Math.random().toString(36).slice(2,10).toUpperCase();
+      localStorage.setItem('ts_syncid', syncId);
+    }
+    updateSyncUI('연결됨');
+    await syncPull();
+  } catch(e) { updateSyncUI('오류'); }
+}
+function updateSyncUI(status) {
+  const el = g('sync-status-val');
+  if (el) { el.textContent = status; el.style.color = {연결됨:'var(--green)',미설정:'var(--text3)',동기화중:'var(--blue)',오류:'var(--red)'}[status]||'var(--text2)'; }
+  const ce = g('sync-code-display'); if (ce && syncId) ce.textContent = syncId;
+}
+async function syncPush() {
+  if (!db || !syncId) { st('동기화 미설정'); return; }
+  updateSyncUI('동기화중');
+  try {
+    await db.collection('portfolios').doc(syncId).set({ pf, trades, notes, targets, sniper, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    updateSyncUI('연결됨'); addLog('ok','클라우드 저장 완료');
+  } catch(e) { updateSyncUI('오류'); addLog('err','저장 실패: '+e.message); }
+}
+async function syncPull() {
+  if (!db || !syncId) { st('동기화 미설정'); return; }
+  updateSyncUI('동기화중');
+  try {
+    const doc = await db.collection('portfolios').doc(syncId).get();
+    if (doc.exists) {
+      const d = doc.data();
+      if (d.pf)      { pf      = d.pf;      localStorage.setItem('ts_pf3',    JSON.stringify(pf)); }
+      if (d.trades)  { trades  = d.trades;   localStorage.setItem('ts_trades', JSON.stringify(trades)); }
+      if (d.notes)   { notes   = d.notes;    localStorage.setItem('ts_notes',  JSON.stringify(notes)); }
+      if (d.targets) { targets = d.targets;  localStorage.setItem('ts_tgt',    JSON.stringify(targets)); }
+      if (d.sniper)  { sniper  = d.sniper;   localStorage.setItem('ts_sniper3',JSON.stringify(sniper)); }
+      render(); renderTrades(); renderSniper(); updateTickerFilter();
+      if (pf.length) loadAll();
+      addLog('ok','클라우드에서 불러오기 완료');
+    } else { addLog('info','클라우드에 데이터 없음 — 첫 기기입니다'); }
+    updateSyncUI('연결됨');
+  } catch(e) { updateSyncUI('오류'); addLog('err','불러오기 실패: '+e.message); }
+}
+function debouncedSyncPush() { if (!db) return; clearTimeout(syncPushTimer); syncPushTimer = setTimeout(syncPush, 2000); }
+function copySyncCode() { if (!syncId) return; navigator.clipboard?.writeText(syncId).then(()=>st('동기화 코드 복사됨!')); }
+function applySyncCode() {
+  const input = g('sync-code-input'); const code = input?.value.trim().toUpperCase();
+  if (!code || code.length < 6) { st('코드를 올바르게 입력하세요'); return; }
+  syncId = code; localStorage.setItem('ts_syncid', syncId); input.value = '';
+  st('코드 적용됨 — 불러오는 중...'); updateSyncUI('연결됨'); syncPull();
+}
+
 // ── XLSX ──────────────────────────────────────────────────────────────────
 function exportXLSX(type){
   if(typeof XLSX==='undefined'){st('XLSX 라이브러리 로딩 실패');return;}
@@ -1219,6 +1310,8 @@ window.onload=()=>{
   if(pf.length)loadAll();else{dot('on');st('종목을 추가하세요');}
   // PWA 서비스워커 등록
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+  // 클라우드 동기화 초기화
+  initSync();
 };
 
 function g(id){return document.getElementById(id);}
